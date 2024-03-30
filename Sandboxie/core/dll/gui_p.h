@@ -396,6 +396,12 @@ typedef HCURSOR (*P_SetCursor)(HCURSOR hCursor);
 
 typedef BOOL (*P_GetIconInfo)(HICON hIcon, PICONINFO piconinfo);
 
+typedef HICON(*P_CreateIconIndirect)(PICONINFO piconinfo);
+
+typedef COLORREF(*P_GetPixel)(HDC hdc, int x, int y);
+
+typedef COLORREF(*P_SetPixel)(HDC hdc, int x, int y, COLORREF color);
+
 typedef HWND (*P_GetForegroundWindow)(void);
 
 typedef BOOL (*P_SetForegroundWindow)(HWND hWnd);
@@ -415,13 +421,27 @@ typedef int (*P_LoadString)(
 
 typedef BOOL (*P_SetProcessWindowStation)(HWINSTA hWinSta);
 
-/*typedef HDC(*P_GetWindowDC)(HWND hWnd);
+typedef HDC(*P_GetWindowDC)(HWND hWnd);
 
 typedef HDC(*P_GetDC)(HWND hWnd);
 
 typedef HDC(*P_GetDCEx)(HWND hWnd, HRGN hrgnClip,DWORD flags);
 
-typedef BOOL (*P_PrintWindow)(HWND hwnd, HDC hdcBlt,UINT nFlags);*/
+typedef BOOL (*P_PrintWindow)(HWND hwnd, HDC hdcBlt,UINT nFlags);
+
+typedef BOOL(*P_DeleteObject)(HGDIOBJ ho);
+
+typedef int (*P_ReleaseDC)(HWND hWnd, HDC hDc);
+
+typedef BOOL(*P_DeleteDC)(HDC hdc);
+
+typedef HDC(*P_CreateCompatibleDC)(HDC hdc);
+
+typedef HGDIOBJ (*P_SelectObject)(_In_ HDC hdc, _In_ HGDIOBJ h);
+
+typedef int (*P_GetDeviceCaps)(_In_opt_ HDC hdc, _In_ int index);
+
+typedef HBITMAP(*P_CreateCompatibleBitmap)(_In_ HDC hdc, _In_ int cx, _In_ int cy);
 
 typedef BOOL (*P_ShutdownBlockReasonCreate)(HWND hWnd, LPCWSTR pwszReason);
 
@@ -472,6 +492,7 @@ typedef BOOL(*P_GetOpenFileNameW)(LPVOID lpofn);
 extern BOOLEAN Gui_RenameClasses;
 extern BOOLEAN Gui_OpenAllWinClasses;   // not running in a restricted job
 extern BOOLEAN Gui_UseProtectScreen;
+extern BOOLEAN Gui_UseBlockCapture;
 
 extern BOOLEAN Gui_UseProxyService;
 
@@ -550,10 +571,11 @@ extern ATOM Gui_WindowProcOldA_Atom;
 #endif
 #define GUI_SYS_VAR_2(nm)       GUI_SYS_VAR_AW(nm,A); GUI_SYS_VAR_AW(nm,W);
 
-/*GUI_SYS_VAR(GetDC)
+GUI_SYS_VAR(GetDC)
 GUI_SYS_VAR(GetDCEx)
 GUI_SYS_VAR(GetWindowDC)
-GUI_SYS_VAR(PrintWindow)*/
+GUI_SYS_VAR(ReleaseDC)
+GUI_SYS_VAR(PrintWindow)
 
 GUI_SYS_VAR(ClipCursor)
 GUI_SYS_VAR(GetClipCursor)
@@ -916,5 +938,12 @@ static HRESULT Gui_D3D11CreateDevice(
 */
 //---------------------------------------------------------------------------
 
+VOID Gdi_InitDCCache();
+
+HDC Gdi_GetDummyDC(HDC ret, HWND hWnd);
+
+HDC Gdi_OnFreeDC(HDC dc);
+
+//---------------------------------------------------------------------------
 
 #endif // MY_GUI_P_H
