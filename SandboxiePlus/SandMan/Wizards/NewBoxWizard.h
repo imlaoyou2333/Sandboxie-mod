@@ -118,11 +118,15 @@ public:
     bool validatePage() override;
     void OnDropAdminChanged(int state);
 
+private slots:
+    void OnBlockNetworkChanged(int index);
+
 private:
     QCheckBox* m_pShareAccess;
     QCheckBox* m_pMSIServer;
     QCheckBox* m_pDropAdmin;
     QCheckBox* m_pBoxToken;
+    QCheckBox* m_pPromptAccess;
 };
 
 
@@ -141,7 +145,12 @@ public:
     void initializePage() override;
     bool validatePage() override;
 
+private slots:
+    void OnSharedTemplateIndexChanged(int index);
+
 private:
+    QComboBox* m_pSharedTemplate;
+    QComboBox* m_pSharedTemplateIndex;
 };
 
 

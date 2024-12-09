@@ -514,7 +514,7 @@ check:
                     // csrss.exe needs access to binaries of starting up processes.
                     //
 
-                    if (Util_IsCsrssProcess(PsGetCurrentProcessId()))
+                    if (Util_IsSystemProcess(PsGetCurrentProcessId(), "csrss.exe"))
                         break;
 
                     status = STATUS_ACCESS_DENIED;
@@ -784,11 +784,6 @@ _FX NTSTATUS File_RenameOperation(
     //
 
     Parms = &Iopb->Parameters;
-
-#ifdef _M_ARM64
-    if (! MmIsAddressValid(Parms->SetFileInformation.InfoBuffer)) // todo: arm64 // fix-me: why does this happen?
-        return STATUS_ACCESS_DENIED;
-#endif
 
     if(LinkOp) {
 

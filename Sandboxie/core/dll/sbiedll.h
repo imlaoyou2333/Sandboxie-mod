@@ -157,6 +157,9 @@ SBIEDLL_EXPORT  ULONG SbieDll_QueueGetRpl(
     const WCHAR *QueueName, ULONG RequestId,
     void **out_DataPtr, ULONG *out_DataLen);
 
+SBIEDLL_EXPORT  void *SbieDll_CallProxySvr(
+    WCHAR *QueueName, void *req, ULONG req_len, ULONG rpl_min_len, DWORD timeout_sec);
+
 SBIEDLL_EXPORT  ULONG SbieDll_UpdateConf(
     WCHAR OpCode, const WCHAR *Password, const WCHAR *Section,
     const WCHAR *Setting, const WCHAR *Value);
@@ -226,6 +229,7 @@ SBIEDLL_EXPORT  ULONG SbieDll_InjectLow(HANDLE hProcess, ULONG init_flags, BOOLE
 SBIEDLL_EXPORT  BOOLEAN SbieDll_MatchImage(const WCHAR* pat_str, const WCHAR* test_str, const WCHAR* BoxName);
 
 SBIEDLL_EXPORT  BOOLEAN SbieDll_GetStringForStringList(const WCHAR* string, const WCHAR* boxname, const WCHAR* setting, WCHAR* value, ULONG value_size);
+SBIEDLL_EXPORT  BOOLEAN SbieDll_GetStringsForStringList(const WCHAR* string, const WCHAR* boxname, const WCHAR* setting, int pos, WCHAR* value, ULONG value_size);
 SBIEDLL_EXPORT  BOOLEAN SbieDll_CheckStringInList(const WCHAR* string, const WCHAR* boxname, const WCHAR* setting);
 SBIEDLL_EXPORT  BOOLEAN SbieDll_CheckStringInListA(const char* string, const WCHAR* boxname, const WCHAR* setting);
 
@@ -244,6 +248,16 @@ SBIEDLL_EXPORT  BOOLEAN SbieDll_IsReservedFileName(const WCHAR* name);
 SBIEDLL_EXPORT  PSECURITY_DESCRIPTOR SbieDll_GetPublicSD();
 
 SBIEDLL_EXPORT  const WCHAR* SbieDll_FindArgumentEnd(const WCHAR* arguments);
+
+SBIEDLL_EXPORT  ULONG_PTR Scm_HookSetServiceStatus(VOID* hook);
+SBIEDLL_EXPORT  ULONG_PTR Scm_HookStartServiceCtrlDispatcherW(VOID* hook);
+SBIEDLL_EXPORT  ULONG_PTR Scm_HookOpenServiceW(VOID* hook);
+SBIEDLL_EXPORT  ULONG_PTR Scm_HookCloseServiceHandle(VOID* hook);
+SBIEDLL_EXPORT  ULONG_PTR Scm_HookQueryServiceStatusEx(VOID* hook);
+SBIEDLL_EXPORT  ULONG_PTR Scm_HookQueryServiceStatus(VOID* hook);
+SBIEDLL_EXPORT  ULONG_PTR Scm_HookStartServiceW(VOID* hook);
+SBIEDLL_EXPORT  ULONG_PTR Scm_HookControlService(VOID* hook);
+
 
 #ifdef USE_MATCH_PATH_EX
 //SBIEDLL_EXPORT ULONG SbieDll_MatchPathImpl(BOOLEAN use_rule_specificity, BOOLEAN use_privacy_mode, const WCHAR* path, void* normal_list, void* open_list, void* closed_list, void* write_list, void* read_list);

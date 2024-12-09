@@ -436,6 +436,8 @@ typedef int (*P_LoadString)(
 
 typedef BOOL (*P_SetProcessWindowStation)(HWINSTA hWinSta);
 
+typedef HWINSTA (*P_GetProcessWindowStation)();
+
 typedef HDC(*P_GetWindowDC)(HWND hWnd);
 
 typedef HDC(*P_GetDC)(HWND hWnd);
@@ -508,6 +510,7 @@ extern BOOLEAN Gui_UseProtectScreen;
 extern BOOLEAN Gui_UseBlockCapture;
 
 extern BOOLEAN Gui_BlockInterferenceControl;
+extern BOOLEAN Gui_DontAllowCoverTaskbar;
 
 extern BOOLEAN Gui_UseProxyService;
 
